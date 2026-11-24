@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quantum Speculative Sim</title>
+  <meta name="description" content="An interactive physical simulator bridging Einstein's E=λc³ with Planck's E=hv in speculative linear vacuums.">
+  <meta property="og:title" content="Quantum Speculative Sim">
+  <meta property="og:description" content="An interactive physical simulator bridging Einstein's E=λc³ with Planck's E=hv in speculative linear vacuums.">
+  <link rel="stylesheet" href="./src/style.css">
+</head>
+<body>
+  <div class="terminal-container">
+    
+    <!-- Header: Brutalist System Title -->
+    <header class="terminal-header">
+      <div class="header-main">
+        <h1 class="logo-title">LOCALITY_EXPLORATION</h1>
+      </div>
+      <div class="header-status">
+        <div class="status-indicator">
+          <span class="indicator-label">RENDER_BACKEND:</span>
+          <span id="gpu-status" class="indicator-value status-checking">DETECTING...</span>
+        </div>
+        <div class="status-indicator">
+          <span class="indicator-label">VACUUM_STATE:</span>
+          <span id="vibrational-state" class="indicator-value text-amber">STABLE</span>
+        </div>
+        <div class="status-indicator">
+          <span class="indicator-label">KNOTS:</span>
+          <span id="header-magnet-count" class="indicator-value text-cyan">0</span>
+        </div>
+      </div>
+    </header>
+
+    <!-- Core Layout Grid -->
+    <main class="terminal-grid">
+      
+      <!-- Left Column: Parameters and Medium Config -->
+      <section class="control-panel panel">
+        <h2 class="panel-title">[01] PARAMETERS</h2>
+        
+        <!-- Vacuum Metric Selector -->
+        <div class="control-group">
+          <label class="control-label" for="medium-select">VACUUM_METRIC</label>
+          <select id="medium-select" class="terminal-select">
+            <option value="A" selected>Metric A: Cosmic Filament (λLc²)</option>
+            <option value="B">Metric B: Volumetric Vorticity (ρVc²)</option>
+            <option value="C">Metric C: Relativistic Vacuum (mc²)</option>
+          </select>
+        </div>
+
+        <!-- Field Excitation Knobs -->
+        <div class="panel-section-title">FIELD_EXCITATION</div>
+        
+        <div class="control-row">
+          <div class="control-group">
+            <label class="control-label" for="input-frequency">FREQUENCY (ν)</label>
+            <div class="input-with-unit">
+              <input type="number" id="input-frequency" class="terminal-input" value="2.4" step="0.1">
+              <span id="frequency-unit" class="input-unit">Hz</span>
+            </div>
+            <input type="range" id="range-frequency" class="terminal-slider" min="0.0" max="100" step="0.1" value="2.4">
+          </div>
+        </div>
+
+
+        <!-- Dynamics & Constants -->
+        <div class="panel-section-title">DYNAMICS_&amp;_CONSTANTS</div>
+
+        <div class="control-row">
+          <div class="control-group">
+            <label class="control-label" for="distribution-select">INITIAL_DISTRIBUTION</label>
+            <select id="distribution-select" class="terminal-select">
+              <option value="default">Metric Default</option>
+              <option value="orbital">Keplerian Ring</option>
+              <option value="chaos">Thermal Cloud</option>
+              <option value="spiral">Spiral Accretion</option>
+              <option value="grid" selected>Uniform Lattice</option>
+              <option value="central">Central Singularity</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="control-row">
+          <div class="control-group">
+            <label class="control-label" for="range-particles">QUANTA_COUNT (N)</label>
+            <div class="slider-header">
+              <input type="range" id="range-particles" class="terminal-slider" min="500" max="30000" step="250" value="3000">
+              <input type="text" id="particle-count-display" class="badge" value="3000">
+            </div>
+          </div>
+        </div>
+
+        <div class="control-row">
+          <div class="control-group">
+            <label class="control-label" for="range-gravity">GRAVITY_G (×10⁻¹¹)</label>
+            <div class="slider-header">
+              <input type="range" id="range-gravity" class="terminal-slider" min="0.0" max="30.0" step="0.01" value="6.67">
+              <input type="text" id="gravity-val-display" class="badge" value="6.67">
+            </div>
+          </div>
+          <div class="control-group">
+            <label class="control-label" for="range-drag">DAMPING (γ_d)</label>
+            <div class="slider-header">
+              <input type="range" id="range-drag" class="terminal-slider" min="0" max="0.2" step="0.001" value="0.0">
+              <input type="text" id="drag-val-display" class="badge" value="0.000">
+            </div>
+          </div>
+          <div class="control-group">
+            <label class="control-label" for="range-sim-speed">TIME_STEP (Δt)</label>
+            <div class="slider-header">
+              <input type="range" id="range-sim-speed" class="terminal-slider" min="0.1" max="10.0" step="0.1" value="1.0">
+              <input type="text" id="sim-speed-display" class="badge" value="1.0x">
+            </div>
+          </div>
+        </div>
+
+        <div class="control-row">
+          <div class="control-group">
+            <label class="control-label" for="range-dark-energy">COSMIC_EXPANSION (Λ)</label>
+            <div class="slider-header">
+              <input type="range" id="range-dark-energy" class="terminal-slider" min="0" max="30.0" step="0.1" value="0.0">
+              <input type="text" id="dark-energy-val-display" class="badge" value="0.0">
+            </div>
+          </div>
+          <div class="control-group">
+            <label class="control-label" for="range-orbital-boost">FRAME_DRAG (ω_LT)</label>
+            <div class="slider-header">
+              <input type="range" id="range-orbital-boost" class="terminal-slider" min="0" max="400.0" step="0.1" value="50.0">
+              <input type="text" id="orbital-boost-val-display" class="badge" value="50.0x">
+            </div>
+          </div>
+          <div class="control-group">
+            <label class="control-label" for="range-gravity-range">INTERACTION_RANGE (r_g)</label>
+            <div class="slider-header">
+              <input type="range" id="range-gravity-range" class="terminal-slider" min="0" max="800" step="5" value="70">
+              <input type="text" id="gravity-range-val-display" class="badge" value="70 u">
+            </div>
+          </div>
+        </div>
+
+        <div class="control-row">
+          <div class="control-group">
+            <label class="control-label" for="range-spin-velocity">ANGULAR_MOMENTUM (ω₀)</label>
+            <div class="slider-header">
+              <input type="range" id="range-spin-velocity" class="terminal-slider" min="-10.0" max="10.0" step="0.1" value="1.0">
+              <input type="text" id="spin-velocity-val-display" class="badge" value="1.0 rad/s">
+            </div>
+          </div>
+          <div class="control-group">
+            <label class="control-label" for="range-center-bias">CENTRAL_WELL_BIAS</label>
+            <div class="slider-header">
+              <input type="range" id="range-center-bias" class="terminal-slider" min="0.0" max="5.0" step="0.1" value="0.0">
+              <input type="text" id="center-bias-val-display" class="badge" value="0.0x">
+            </div>
+          </div>
+          <div class="control-group">
+            <label class="control-label" for="range-sheet-tension">SHEET_TENSION (T_s)</label>
+            <div class="slider-header">
+              <input type="range" id="range-sheet-tension" class="terminal-slider" min="0.04" max="0.35" step="0.01" value="0.22">
+              <input type="text" id="sheet-tension-val-display" class="badge" value="0.22">
+            </div>
+          </div>
+          <div class="control-group">
+            <label class="control-label" for="range-pole-gate">POLE_GATE (ψ)</label>
+            <div class="slider-header">
+              <input type="range" id="range-pole-gate" class="terminal-slider" min="5" max="90" step="1" value="30">
+              <input type="text" id="pole-gate-val-display" class="badge" value="30°">
+            </div>
+          </div>
+        </div>
+
+        <div class="control-buttons">
+          <button id="btn-pause" class="terminal-btn font-mono">PAUSE</button>
+          <button id="btn-explode" class="terminal-btn font-mono btn-alert">IMPULSE_BURST</button>
+          <button id="btn-reset" class="terminal-btn font-mono">RESET_FIELD</button>
+        </div>
+
+        <div class="panel-section-title">MASS_COLOR_KEY</div>
+        <div class="mass-color-key">
+          <div class="key-item"><span class="key-swatch" style="background:#4d969c;"></span><span>LOW_MASS (γm₀)</span></div>
+          <div class="key-item"><span class="key-swatch" style="background:#d9b03b;"></span><span>NOMINAL_MASS</span></div>
+          <div class="key-item"><span class="key-swatch" style="background:#ed5e2b;"></span><span>HIGH_ENERGY / JET</span></div>
+          <div class="key-item"><span class="key-swatch" style="background:#f5e09e;"></span><span>BOUND_ORBITAL</span></div>
+        </div>
+      </section>
+
+      <!-- Center Column: Main Interactive Canvas -->
+      <section class="viewport-panel panel">
+        <div class="viewport-header">
+          <div class="viewport-title-group">
+            <h2 class="panel-title">[02] SPACETIME_MANIFOLD</h2>
+            <div class="magnet-status-badge">
+              <span class="magnet-badge-label">KNOTS:</span>
+              <span id="viewport-magnet-count" class="magnet-badge-val">0</span>
+            </div>
+          </div>
+          <div class="viewport-mode-tabs">
+            <button id="tab-physics" class="tab-btn">PARTICLES</button>
+            <button id="tab-grid" class="tab-btn active">METRIC_GRID</button>
+            <button id="tab-fluid" class="tab-btn">FLUID</button>
+            <button id="tab-vector" class="tab-btn">EM_FIELD [E, B]</button>
+          </div>
+        </div>
+        
+        <div class="canvas-container">
+          <canvas id="sim-canvas"></canvas>
+          
+          <!-- On-Canvas HUD (Hidden per user request: let particles do their thing) -->
+          <div class="canvas-hud" style="display: none;">
+            <div class="hud-item" style="display: none;">
+              <span class="hud-lbl">SPEED:</span>
+              <span id="hud-val-freq" class="hud-val text-green">---</span>
+            </div>
+            <div class="hud-item" style="display: none;">
+              <span class="hud-lbl">ENERGY:</span>
+              <span id="hud-val-energy" class="hud-val text-amber">---</span>
+            </div>
+            <div class="hud-item" style="display: none;">
+              <span class="hud-lbl">SPIN_TYPE:</span>
+              <span id="hud-val-dim" class="hud-val">---</span>
+            </div>
+            <div class="hud-item" style="display: none;">
+              <span class="hud-lbl">BURST_LIMIT:</span>
+              <span id="hud-val-clump-threshold" class="hud-val text-cyan">---</span>
+            </div>
+            <div class="hud-item">
+              <span class="hud-lbl">STATE:</span>
+              <span id="hud-val-spacetime-state" class="hud-val text-red">---</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Grid distortion controller & interactive attractors -->
+        <div class="viewport-footer">
+          <div class="interactive-toggles">
+            <label class="toggle-container">
+              <input type="checkbox" id="toggle-individual-pull" checked>
+              <span class="toggle-label">MASS_SCALED_RANGE</span>
+            </label>
+            <label class="toggle-container">
+              <input type="checkbox" id="toggle-collisions" checked>
+              <span class="toggle-label">ELASTIC_SCATTER</span>
+            </label>
+            <label class="toggle-container">
+              <input type="checkbox" id="toggle-waveforms" checked>
+              <span class="toggle-label">WORLDLINE_TRAILS</span>
+            </label>
+            <label class="toggle-container">
+              <input type="checkbox" id="toggle-non-destructible" checked>
+              <span class="toggle-label">SOLITON_REPULSION</span>
+            </label>
+            <label class="toggle-container">
+              <input type="checkbox" id="toggle-permanent-clump" checked>
+              <span class="toggle-label">PERSISTENT_FOLDS</span>
+            </label>
+            <label class="toggle-container toggle-yellow state-yellow" id="container-trapped-dots" title="Click to cycle: PROB (Selective Capture) -> LOCK (Capture All) -> FREE (Unbound)">
+              <input type="checkbox" id="toggle-trapped-dots" checked>
+              <span class="toggle-label" id="label-trapped-dots">BOUND_ORBITALS [PROB]</span>
+            </label>
+          </div>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- Footer Status Bar -->
+    <footer class="terminal-footer">
+      <div class="footer-item">TIME: <span id="clock-display" class="font-mono">00:00:00</span></div>
+      <div class="footer-item">RENDER_PIPELINE: <span id="active-engine" class="font-mono text-green">---</span></div>
+      <div class="footer-item">ACTIVE_KNOTS: <span id="footer-magnet-count" class="font-mono text-cyan">0</span></div>
+      <div class="footer-item">ZOOM: <span id="zoom-display" class="font-mono text-amber">1.85x</span></div>
+    </footer>
+
+  </div>
+
+  <!-- Entry module script -->
+  <script type="module" src="./src/main.js"></script>
+</body>
+</html>
